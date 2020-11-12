@@ -1,0 +1,105 @@
+* {
+}
+
+body {
+  margin: 0px;
+  font-family: Poppins;
+}
+
+.session {
+  max-width: 80%;
+  margin: 30px auto;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.session_header {
+  padding: 10px 20px;
+  white-space: nowrap;
+}
+
+.session_content {
+  padding: 0px 50px;
+
+}
+.card_list_legend {
+  margin: 0 auto;
+}
+
+.legend {
+  color: rgba(0,0,0,1);
+  font-size: 20px;
+  padding: 0px 40px;
+  text-align: center;
+}
+
+
+
+.header {
+  background: rgba(95,186,233,1);
+}
+
+.header button {
+  color: white;
+  background-color: transparent;
+  border: 0;
+  padding: 10px;
+  float: right;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: 25px;
+  transition: .2s;
+}
+
+
+.header button:hover {
+  font-size: 27px;
+}
+
+h1 {
+  color: rgba(0,0,0,1);
+  font-size: 25px;
+  display: inline-block;
+}
+
+p {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.content {
+  background: rgba(255,255,255,1);}
+
+#best_card {
+  color: rgba(0,0,0,1);
+  font-size: 120px;
+}
+
+#welcome {
+  margin: 50px;
+  color: rgba(255,255,255,1);
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: 30px;
+}
+
+
+i {
+  padding: 5px;
+  
+}
+
+.session button {
+  background-color:  rgba(95,186,233,1);
+  border: 0;
+  border-radius: 5px;
+  margin: 20px;
+  right: 0;
+
+  transition: 0.2s;
+}
+
+.session button i {
+  color: white;
+}
+
+.session button:hover {
+  transform: scale(1.2);
+}
