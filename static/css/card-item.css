@@ -1,0 +1,24 @@
+.card {
+  display: inline;
+  border:none;
+}
+
+.card span {
+  margin: 10px 25px;
+  padding: 0 35px;
+  width: 50px;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.card button {
+  margin: 5px
+}
+
+.delete-card-btn {
+  background-color: red;
+}
+
+.edit-card-btn {
+  background-color:  rgba(95,186,233,1);
+}

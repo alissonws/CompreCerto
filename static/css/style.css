@@ -87,7 +87,6 @@ i {
 }
 
 .session button {
-  background-color:  rgba(95,186,233,1);
   border: 0;
   border-radius: 5px;
   margin: 20px;
@@ -102,4 +101,8 @@ i {
 
 .session button:hover {
   transform: scale(1.2);
+}
+
+#add_card {
+  background-color:  rgba(95,186,233,1);
 }
