@@ -27,7 +27,5 @@ class Requests {
       error: function (){
           alert("Erro carregar cartões")},
   });
-
   }
-
 }
