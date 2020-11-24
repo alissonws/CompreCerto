@@ -15,7 +15,7 @@
 - Clone o repositório `git clone https://github.com/alissonws/CompreCerto.git`
 - Entre no repositório que acabou de clonar `cd CompreCerto/`
 - Crie um ambiente virtual `python3 -m virtualenv venv`
-- Acesse o ambiente virtual `source venv/bin/activate`
+- Acesse o ambiente virtual `cd venv/Scripts && activate && cd../..`
 - Instale o Flask `pip3 install flask`
 - Dê permições de execução para o arquivo `run_flask.bat` (não sei como fazer isso no Windows)
 - Você pode rodar o servidor flask executando `./run_flask.bat`

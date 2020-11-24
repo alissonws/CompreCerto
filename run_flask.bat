@@ -1,4 +1,4 @@
-export FLASK_APP=app.py
-export FLASK_ENV=development
+set FLASK_APP=app.py
+set FLASK_ENV=development
 
-venv/bin/flask run
+flask run
