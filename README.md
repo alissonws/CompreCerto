@@ -17,5 +17,8 @@
 - Crie um ambiente virtual `python3 -m virtualenv venv`
 - Acesse o ambiente virtual `cd venv/Scripts && activate && cd../..`
 - Instale o Flask `pip3 install flask`
-- Dê permições de execução para o arquivo `run_flask.bat` (não sei como fazer isso no Windows)
-- Você pode rodar o servidor flask executando `./run_flask.bat`
+- Você pode rodar o servidor flask executando `run_flask.bat`
+
+# O que fazer todos os dias antes de programar?
+- Acesse o ambiente virtual `cd venv/Scripts && activate && cd../..`
+- Execute o servidor flask executando `run_flask.bat`
