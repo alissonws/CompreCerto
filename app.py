@@ -46,3 +46,42 @@ def read():
                 response.append([card_name, card_flag, card_bank, bill])       # Caso sim, coloca os dados juntos na resposta
 
     return Response(200, json.dumps(response))
+
+@app.route('/api/SignUp', methods=['POST'])
+def signup():
+    
+    with open('users.csv') as users:
+        count = sum(1 for line in users)
+
+    id = count +1
+    
+    mail = request.form['email']
+
+    name = request.form['nome']
+
+    password = request.form['senha']
+
+    with open('users.csv', 'a', newline='') as users :
+        userwriter = csv.writer(users, delimiter=',')
+        userwriter.writerow([id, name, mail, password])
+    return Response(status=200)
+
+
+
+
+@app.route('/api/Login', methods=['POST'])
+def login():
+ 
+    lmail = request.form['email']
+    lpswrd = request.form['senha']
+
+    with open('users.csv', newline='') as users:
+        reader = csv.reader(users, delimiter=',', quotechar='|')
+        for row in reader:
+            if lmail in row:
+                if lpswrd in row:
+                    return Response(status=200)
+                else:
+                    return Response('senha incorreta')
+        return Response(status=403)
+        
