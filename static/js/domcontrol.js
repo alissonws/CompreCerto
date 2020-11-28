@@ -23,6 +23,10 @@ class DOMControl {
       'login-redirect-btn': {
         'event': 'click',
         'method': function () {return this_class.redirectTo('/login')}
+      },
+      'submit-card-btn': {
+        'event': 'click',
+        'method': this.addCard
       }
     };
   
@@ -98,7 +102,7 @@ class DOMControl {
 
     password2 = document.getElementById('password2-field').value;
 
-    if (name.length == 0 || email.length == 0 || password1 == 0 || password2 == 0) {
+    if (name.length == 0 || email.length == 0 || password1.length == 0 || password2.length == 0) {
       return alert('Preencha todos os dados');
     }
 
@@ -128,6 +132,41 @@ class DOMControl {
 
   register () {
     $('#new-card').modal();
+  }
+
+  addCard () {
+    var user_id, name, flag, bank, bill
+
+    user_id = GLOBAL_user_id;
+
+    name = document.getElementById('card-name-input').value;
+
+    flag = document.getElementById('card-brand-input').value;
+
+    bank = document.getElementById('card-bank-input').value;
+
+    bill = document.getElementById('card-bill-input').value;
+
+
+    if (name.length == 0 || flag.length == 0 || bank.length == 0 || bill.length == 0) {
+      return alert('Preencha todos os dados');
+    }
+
+    let new_request = new Requests();
+    new_request.addCard(user_id, name, flag, bank, bill);
+  }
+
+  getCards () {
+    let user_id = GLOBAL_user_id
+    let new_request = new Requests();
+
+    new_request.getCards(user_id);
+  }
+
+  updateCards (card_list) {
+    let cardList = new CardList(card_list);
+
+    cardList.updateList()
   }
 
   delete () {

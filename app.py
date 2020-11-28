@@ -11,7 +11,7 @@ def index():
 
 @app.route('/dashboard/<user_id>', methods=['GET'])
 def dashboard_page(user_id):
-    return render_template('dashboard.html')
+    return render_template('dashboard.html', user_id=user_id)
 
 @app.route('/signup', methods=['GET'])
 def signup_page():
@@ -28,13 +28,14 @@ Selecione o método como POST, e na aba body você deve preencher a KEY com o me
 
 @app.route('/api/addCard', methods=['POST']) # Tive que usar POST pela quantidade de dados
 def write():
-    form = request.form # Em POST requests, você acessa os dados pelo request.form
+    form = request.json # Em POST requests, você acessa os dados pelo request.form
 
     foreign_key = form['user_id']
     name = form['card_name']
     flag = form['card_flag']
     bank = form['card_bank']
     bill = form['card_bill']
+    active = 1
 
     primary_key = 0
 
@@ -43,28 +44,36 @@ def write():
 
     with open('cards.csv', 'a', newline='') as cards :
         cardwriter = csv.writer(cards, delimiter=',')
-        cardwriter.writerow([primary_key, name, flag, bank, bill, foreign_key])
+        cardwriter.writerow([primary_key, name, flag, bank, bill, foreign_key, active])
 
-    return Response(200)
+    response = {
+        'message': 'Successfully added',
+        'user_id': foreign_key
+    }
 
-@app.route('/api/getCard', methods=['POST'])
+    return make_response(json.dumps(response), 200)
+
+
+@app.route('/api/getCards', methods=['POST'])
 def read():
-    form = request.form
+    form = request.json
 
     foreign_key = form['user_id']
-    name = form['card_name']
-    flag = form['card_flag']
-    bank = form['card_bank']
-    bill = form['card_bill']
+
+    response = {
+        'cards': []
+    }
 
     with open('cards.csv', newline='') as cards:
-        cardreader = csv.reader(cards, delimiter= ' ', quotechar = '|')
+        cardreader = csv.reader(cards, delimiter= ',')
+
         for row in cardreader:
-            print(', '.join(row))
+            if foreign_key == row[5] and row[6] == '1':
+                response['cards'].append(row[:5])
 
-    return Response(200)
+    return make_response(json.dumps(response), 200)
 
-@app.route('/api/writeCard', methods=['POST'])
+@app.route('/api/editCard', methods=['POST'])
 def edit():
     form = request.form
     

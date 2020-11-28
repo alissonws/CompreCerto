@@ -3,31 +3,71 @@ class Requests {
     this.endpoints = {
       read: '/read',
       signup: '/api/signup',
-      login: '/api/login'
+      login: '/api/login',
+      addCard: '/api/addCard',
+      getCards: '/api/getCards'
     }
   }
 
-  getCards () {
+  addCard (user_id, name, flag, bank, bill) {
     let body = {
-      "user_id": "1"
+      'user_id': user_id,
+      'card_name': name,
+      'card_flag': flag,
+      'card_bank': bank,
+      'card_bill': bill
     }
 
-    let endpoint = this.endpoints.read;
+    let endpoint = window.location.origin+this.endpoints.addCard;
 
-    let success_func = function (response) {
-      cardList = new DOMControl({cardList: response});
-      cardList.updateList();
+    let onSuccess = function (response) {
+
+      let user_id = response.user_id;
+
+      window.location.href = `/dashboard/${user_id}`;
+    }
+
+    let onError = function (response){
+      let data = response.responseJSON
+      alert(data.message)
     }
 
     $.ajax({
       url: endpoint,
       contentType: "application/json",
+      dataType: 'json',
       data: JSON.stringify(body),
       type: 'POST',
-      success: success_func,
-      error: function (){
-          alert("Erro carregar cartões")},
-  });
+      success: onSuccess,
+      error: onError
+    });
+  }
+
+  getCards (user_id) {
+    let body = {
+      'user_id': user_id.toString()
+    }
+
+    let endpoint = window.location.origin+this.endpoints.getCards;
+
+    let onSuccess = function (response) {
+      let controlDOM = new DOMControl();
+      controlDOM.updateCards(response.cards)
+    }
+
+    let onError = function (response){
+      alert(response.message)
+    }
+
+    $.ajax({
+      url: endpoint,
+      contentType: "application/json",
+      dataType: 'json',
+      data: JSON.stringify(body),
+      type: 'POST',
+      success: onSuccess,
+      error: onError
+    });
   }
 
   signup (email, name, password) {
@@ -46,8 +86,7 @@ class Requests {
     }
 
     let onError = function (response){
-      let data = response.responseJSON
-      alert(data.message)
+      alert(response.message)
     }
 
     $.ajax({

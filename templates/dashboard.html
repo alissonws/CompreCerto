@@ -19,6 +19,10 @@
         <script src="../static/js/cardlist.js"></script>
         <script src="../static/js/init.js"></script>
 
+        <script type="text/javascript">
+            var GLOBAL_user_id = {{ user_id }}
+        </script>
+
         <title>Compre Certo</title>
     </head>
     <body>   
@@ -50,7 +54,7 @@
                         </div>
                         <!-- Vencimento da fatura -->
                         <label for="card-bill-day">Vencimento da fatura</label>
-                        <select class="form-control" id="card-bill-day">
+                        <select class="form-control" id="card-bill-input">
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -85,7 +89,7 @@
                         </select>
                     </div>
                     <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                    <button type="button" id='submit-card-btn' class="btn btn-primary">Adicionar</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                     </div>
                 </form>
@@ -114,16 +118,7 @@
                                     <th scope="col"><p>Vencimento</p></th>
                                 </thead>
                                 <tbody class='col col-12' id='card-list'>
-                                    <tr class='card-item'>
-                                        <th scope="row">
-                                            <button type='button' class='edit-card-btn'><i class="fas fa-edit"></i></button>
-                                            <button type='button' class='delete-card-btn'><i class="fas fa-trash"></i></button>
-                                        </th>
-                                        <td><p>Visa 2</p></td>
-                                        <td><p>Visa 2</p></td>
-                                        <td><p>Visa 2</p></td>
-                                        <td><p>Visa 2</p></td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
