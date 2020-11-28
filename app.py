@@ -1,6 +1,6 @@
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, make_response
 
-import json, csv
+import json, csv, shutil
 
 app = Flask(__name__)
 
@@ -34,7 +34,7 @@ def write():
 
     with open('cards.csv', 'a') as cards: # Abrindo o CSV no modo append, isso significa que você vai adicionar linhas no fim do arquivo
         cards.write('cartão')
-
+    shutil.move(tempfile.name, filename)
     return Response(status=200)
 
 @app.route('/api/getCards') # Essa é a notação para passar argumentos via GET requests. Pra implementar o sistema de login vou usar esse sistema. <variavel> declara uma variável a ser passada
@@ -55,33 +55,39 @@ def read():
 
     return Response(200, json.dumps(response))
 
-@app.route('/api/SignUp', methods=['POST'])
+@app.route('/api/signup', methods=['POST'])
 def signup():
     
     with open('users.csv') as users:
         count = sum(1 for line in users)
 
-    id = count +1
+    new_id = count +1
     
     mail = request.form['email']
 
-    name = request.form['nome']
+    name = request.form['username']
 
-    password = request.form['senha']
+    password = request.form['password']
 
     with open('users.csv', 'a', newline='') as users :
         userwriter = csv.writer(users, delimiter=',')
-        userwriter.writerow([id, name, mail, password])
-    return Response(status=200)
+        userwriter.writerow([new_id, name, mail, password])
+
+    response = {
+        'message': 'Signed up successfully',
+        'user_id': new_id
+    }
+
+    return make_response(response, 200) # (body, status, headers)
 
 
 
 
-@app.route('/api/Login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
  
     lmail = request.form['email']
-    lpswrd = request.form['senha']
+    lpswrd = request.form['password']
 
     with open('users.csv', newline='') as users:
         reader = csv.reader(users, delimiter=',', quotechar='|')
