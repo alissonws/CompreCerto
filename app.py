@@ -1,6 +1,7 @@
 from flask import Flask, render_template, Response, request
 
-import json, csv
+import json, csv, os
+from tempfile import NamedTemporaryFile
 
 app = Flask(__name__)
 
@@ -17,32 +18,66 @@ Selecione o método como POST, e na aba body você deve preencher a KEY com o me
 def write():
     form = request.form # Em POST requests, você acessa os dados pelo request.form
 
-    print(
-        form['user_id'],
-        form['card_name'],
-        form['card_flag'],
-        form['card_bank'],
-        form['card_bill'])
+    foreign_key = form['user_id']
+    name = form['card_name']
+    flag = form['card_flag']
+    bank = form['card_bank']
+    bill = form['card_bill']
 
-    with open('cards.csv', 'a') as cards: # Abrindo o CSV no modo append, isso significa que você vai adicionar linhas no fim do arquivo
-        cards.write('cartão')
+    primary_key = 0
 
-    return Response(status=200)
+    with open('cards.csv') as cards:
+        primary_key = sum(1 for line in cards) + 1
 
-@app.route('/api/getCards') # Essa é a notação para passar argumentos via GET requests. Pra implementar o sistema de login vou usar esse sistema. <variavel> declara uma variável a ser passada
+    with open('cards.csv', 'a', newline='') as cards :
+        cardwriter = csv.writer(cards, delimiter=',')
+        cardwriter.writerow([primary_key, name, flag, bank, bill, foreign_key])
+
+    return Response(200)
+
+@app.route('/api/getCard', methods=['POST'])
 def read():
-    form = request.form # Em POST requests, você acessa os dados pelo request.form
+    form = request.form
 
-    user_id = form['user_id']
+    foreign_key = form['user_id']
+    name = form['card_name']
+    flag = form['card_flag']
+    bank = form['card_bank']
+    bill = form['card_bill']
 
-    response = []
+    with open('cards.csv', newline='') as cards:
+        cardreader = csv.reader(cards, delimiter= ' ', quotechar = '|')
+        for row in cardreader:
+            print(', '.join(row))
 
-    with open('cards.csv', 'r') as cards: # Abrindo arquivo 
-        reader = csv.reader(cards, delimiter=',') # Criando um objeto reader de CSV
+    return Response(200)
 
-        for line in reader:
-            card_name, card_flag, card_bank, bill, foreign_user_id = line      # Atribuindo cada variável da linha do csv
-            if user_id == foreign_user_id:                                     # Checando se a referência pro usuário na linha é a que a request pede
-                response.append([card_name, card_flag, card_bank, bill])       # Caso sim, coloca os dados juntos na resposta
+@app.route('/api/writeCard', methods=['POST'])
+def edit():
+    form = request.form
+    
+    primary_key = form['user_id']
+    name = form['card_name']
+    flag = form['card_flag']
+    bank = form['card_bank']
+    bill = form['card_bill']
 
-    return Response(200, json.dumps(response))
+
+    filename = 'tmpEmployeeDatabase.csv'
+    tempfile = NamedTemporaryFile('w+t', newline='', delete=False)
+
+    with open('cards.csv', 'r', newline='') as cards, tempfile:
+        reader = csv.reader(cards, delimiter=',', quotechar='"')
+        writer = csv.writer(tempfile, delimiter=',', quotechar='"')
+
+        for row in reader:
+            if row [0] == primary_key:
+                row [1]=name
+                row [2]=flag 
+                row [3]=bank
+                row [4]=bill
+            writer.writerow(row)
+
+    os.rename(tempfile.name, filename)
+    
+    return Response(status=200)
