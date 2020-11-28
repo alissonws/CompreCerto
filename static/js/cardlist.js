@@ -46,13 +46,13 @@ class CardList {
       `
       <tr class='card-item'>
         <th scope="row">
-            <button type='button' class='edit-card-btn'><i class="fas fa-edit"></i></button>
-            <button type='button' class='delete-card-btn'><i class="fas fa-trash"></i></button>
+            <button type='button' value='${data[0]}' class='edit-card-btn'><i class="fas fa-edit"></i></button>
+            <button type='button' value='${data[0]}' class='delete-card-btn'><i class="fas fa-trash"></i></button>
         </th>
-        <td><p>${data[0]}</p></td>
         <td><p>${data[1]}</p></td>
         <td><p>${data[2]}</p></td>
         <td><p>${data[3]}</p></td>
+        <td><p>${data[4]}</p></td>
       </tr>
       `
     )

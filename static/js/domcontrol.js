@@ -27,6 +27,11 @@ class DOMControl {
       'submit-card-btn': {
         'event': 'click',
         'method': this.addCard
+      },
+      'delete-card-btn': {
+        'isClass': true,
+        'event': 'click',
+        'method': this.deleteCard
       }
     };
   
@@ -43,15 +48,28 @@ class DOMControl {
 
     // Iterando pela lista de elementos e fazendo adicionando o event listener da sua respectiva função
     ids.forEach(function (key) {
-      var element = document.getElementById(key);
+      if (this_class.listeners[key].isClass) {
+        var buttons = document.getElementsByClassName(key);
 
-      if (element) {
-        let event = this_class.listeners[key].event;
-        let method = this_class.listeners[key].method;
-  
-        element.addEventListener(event, method)
+        for (var i = 0; i < buttons.length; i++) {
+          if (buttons[i]) {
+            let event = this_class.listeners[key].event;
+            let method = this_class.listeners[key].method;
+      
+            buttons[i].addEventListener(event, method)
+          }
+        }
+
+      } else {
+        var element = document.getElementById(key);
+
+        if (element) {
+          let event = this_class.listeners[key].event;
+          let method = this_class.listeners[key].method;
+    
+          element.addEventListener(event, method)
+        }
       }
-
     })
   }
 
@@ -166,11 +184,20 @@ class DOMControl {
   updateCards (card_list) {
     let cardList = new CardList(card_list);
 
-    cardList.updateList()
+    cardList.updateList();
+
+    this.updateListeners();
   }
 
-  delete () {
+  deleteCard (e) {
+    var user_id, card_id;
 
+    user_id = GLOBAL_user_id
+    card_id = this.getAttribute('value')
+
+    let new_request = new Requests();
+
+    new_request.deleteCard(user_id, card_id);
   }
 
   edit () {

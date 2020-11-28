@@ -1,6 +1,6 @@
 from flask import Flask, render_template, Response, request, make_response, url_for, redirect
 
-import json, csv, os
+import json, csv, os, shutil
 from tempfile import NamedTemporaryFile
 
 app = Flask(__name__)
@@ -70,6 +70,41 @@ def read():
         for row in cardreader:
             if foreign_key == row[5] and row[6] == '1':
                 response['cards'].append(row[:5])
+
+    return make_response(json.dumps(response), 200)
+
+@app.route('/api/deleteCard', methods=['POST'])
+def delete():
+    form = request.json
+
+    foreign_key = form['user_id']
+    card_id = form['card_id']
+
+    response = {
+        'cards': []
+    }
+
+    with open('cards.csv', newline='') as cards:
+        cardreader = csv.reader(cards, delimiter= ',')
+
+        for row in cardreader:
+            if foreign_key == row[5] and row[6] == '1':
+                response['cards'].append(row[1:5])
+
+
+    filename = 'cards.csv'
+    tempfile = NamedTemporaryFile('w+t', newline='', dir='.',delete=False)
+
+    with open('cards.csv', 'r', newline='') as cards, tempfile:
+        reader = csv.reader(cards, delimiter=',', quotechar='"')
+        writer = csv.writer(tempfile, delimiter=',', quotechar='"')
+
+        for row in reader:
+            if row [0] == card_id:
+                row [6] = 0
+            writer.writerow(row)
+
+    shutil.move(tempfile.name, filename)
 
     return make_response(json.dumps(response), 200)
 
