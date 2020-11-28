@@ -8,6 +8,14 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/signup', methods=['GET'])
+def signup_page():
+    return render_template('signup.html')
+
+@app.route('/login', methods=['GET'])
+def login_page():
+    return render_template('login.html')
+
 """
 COMO TESTAR POST REQUESTS NO POSTMAN?
 Selecione o método como POST, e na aba body você deve preencher a KEY com o mesmo nome que você chama no formulário. Ex: user_id
