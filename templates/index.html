@@ -15,6 +15,7 @@
         <link href="static/css/card-item.css" rel="stylesheet" />
 
         <script src="static/js/domcontrol.js"></script>
+        <script src="static/js/cardlist.js"></script>
         <script src="static/js/init.js"></script>
 
         <title>Compre Certo</title>
@@ -95,41 +96,50 @@
             <button>Sair</button>
         </div>
         <div class="content">
-            <div class="session">
-                <div class="session_header">
-                    <h1><i class="far fa-credit-card"></i>Cartões
-                    </h1>
-                    <div class="card_list_legend">
-                        <button type='button' id="add_card" data-toggle="modal" data-target="#new-card"><i class="fas fa-plus"></i></button>
-                        <span class="legend">Nome do cartão</span>
-                        <span class="legend">Bandeira</span>
-                        <span class="legend">Banco</span>
-                        <span class="legend">Vencimento</span>
-                    </div>
-                    <div id='card-list'>
-                        <div class='card'>
-                            <button type='button' class='edit-card-btn' data-toggle="modal" data-target="#new-card"><i class="fas fa-edit"></i></button>
-                            <button type='button' class='delete-card-btn' data-toggle="modal" data-target="#new-card"><i class="fas fa-trash"></i></button>
-                            <span>Visa 2</span>
-                            <span>Visa</span>
-                            <span>Visa</span>
-                            <span>15</span>
+            <div class='row'>
+                <div class="col col-md-12 col-lg-12 col-xl-9 align-self-center session">
+                    
+                        <div class="session_header">
+                            <h1><i class="far fa-credit-card"></i>Cartões
+                            </h1>
                         </div>
-                    </div>
+                        <div class="row">
+                            <table>
+                                <thead class="col col-12">
+                                    <th scope="col"><button type='button' id="add_card" ><i class="fas fa-plus"></i></button></th>
+                                    <th scope="col"><p>Nome</p></th>
+                                    <th scope="col"><p>Bandeira</p></th>
+                                    <th scope="col"><p>Banco</p></th>
+                                    <th scope="col"><p>Vencimento</p></th>
+                                </thead>
+                                <tbody class='col col-12' id='card-list'>
+                                    <tr class='card-item'>
+                                        <th scope="row">
+                                            <button type='button' class='edit-card-btn'><i class="fas fa-edit"></i></button>
+                                            <button type='button' class='delete-card-btn'><i class="fas fa-trash"></i></button>
+                                        </th>
+                                        <td><p>Visa 2</p></td>
+                                        <td><p>Visa 2</p></td>
+                                        <td><p>Visa 2</p></td>
+                                        <td><p>Visa 2</p></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                 </div>
- 
-
             </div>
-            <div class="session">
-                <div class="session_header">
-                    <h1><i class="fas fa-columns"></i>Dashboard</h1>
-                </div>
+            <div class='row'>
+                <div class="col col-md-12 col-lg-12 col-xl-9 align-self-center session">
+                    <div class="session_header">
+                        <h1><i class="fas fa-columns"></i>Dashboard</h1>
+                    </div>
 
-                <div class="session_content">
-                    <p>Seu melhor cartão para compra é hoje:</p>
-                    <span id="best_card">
-                        VISA 2
-                    </span>
+                    <div class="row session_content">
+                        <p>Seu melhor cartão para compra é hoje:</p>
+                        <span id="best_card">
+                            VISA 2
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

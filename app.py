@@ -9,6 +9,14 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/signup', methods=['GET'])
+def signup_page():
+    return render_template('signup.html')
+
+@app.route('/login', methods=['GET'])
+def login_page():
+    return render_template('login.html')
+
 """
 COMO TESTAR POST REQUESTS NO POSTMAN?
 Selecione o método como POST, e na aba body você deve preencher a KEY com o mesmo nome que você chama no formulário. Ex: user_id
@@ -81,3 +89,43 @@ def edit():
     os.rename(tempfile.name, filename)
     
     return Response(status=200)
+
+
+@app.route('/api/SignUp', methods=['POST'])
+def signup():
+    
+    with open('users.csv') as users:
+        count = sum(1 for line in users)
+
+    id = count +1
+    
+    mail = request.form['email']
+
+    name = request.form['nome']
+
+    password = request.form['senha']
+
+    with open('users.csv', 'a', newline='') as users :
+        userwriter = csv.writer(users, delimiter=',')
+        userwriter.writerow([id, name, mail, password])
+    return Response(status=200)
+
+
+
+
+@app.route('/api/Login', methods=['POST'])
+def login():
+ 
+    lmail = request.form['email']
+    lpswrd = request.form['senha']
+
+    with open('users.csv', newline='') as users:
+        reader = csv.reader(users, delimiter=',', quotechar='|')
+        for row in reader:
+            if lmail in row:
+                if lpswrd in row:
+                    return Response(status=200)
+                else:
+                    return Response('senha incorreta')
+        return Response(status=403)
+        

@@ -1,18 +1,16 @@
-.card {
-  display: inline;
+.card-item {
   border:none;
 }
 
-.card span {
+.card-item th {
   margin: 10px 25px;
   padding: 0 35px;
-  width: 50px;
   font-weight: bold;
   font-size: 25px;
 }
 
-.card button {
-  margin: 5px
+th p, td p {
+  margin: 20px;
 }
 
 .delete-card-btn {
