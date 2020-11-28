@@ -1,13 +1,15 @@
 class DOMControl {
   // Classe responsável por adicionar event listeners e processar inputs
   constructor () {
-    // Objeto que armazena as funções de cada botão
-    this.listeners = {
+    const listeners = {
       'add_card': {
-        'event': 'click',
-        'method': this.register
+          'event': 'click',
+          'method': this.register
       }
-    }
+    };
+  
+    // Objeto que armazena as funções de cada botão
+    this.listeners = listeners;
   }
 
   // Função que realiza o bind de cada botão com sua função
@@ -27,6 +29,7 @@ class DOMControl {
   }
 
   register () {
+    $('#new-card').modal();
   }
 
   delete () {
