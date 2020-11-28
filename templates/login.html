@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html>
     <head>
-            <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-            <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-            <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-            <!-- Custom CSS-->
-            <link rel="stylesheet" href="static/css/login.css">
+      <!-- Custom CSS-->
+      <link rel="stylesheet" href="static/css/login.css">
+
+      <script src="static/js/requests.js"></script>
+      <script src="static/js/domcontrol.js"></script>
+      <script src="static/js/cardlist.js"></script>
+      <script src="static/js/init.js"></script>
 </head>
 
 <body>
-    <div class="wrapper fadeInDown">
+    <div class="wrapper">
   <div id="formContent">
     <!-- Tabs Titles -->
 
     <!-- Login Form -->
     <form>
-      <input type="text" id="login" class="fadeIn second" name="login" placeholder="E-mail">
-      <input type="text" id="password" class="fadeIn third" name="login" placeholder="Senha">
-      <input type="submit" class="fadeIn fourth" value="Entrar">
+      <input type="text" id="login-field"  name="login" placeholder="E-mail">
+      <input type="password" id="password-field"  name="login" placeholder="Senha">
+      <input type='button' id = "login-btn" value="Entrar">
     </form>
+
+    <input type='button'  id = "signup-redirect-btn" value="Cadastre-se">
+
   </div>
 </div>
 </body>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request, make_response
+from flask import Flask, render_template, Response, request, make_response, url_for, redirect
 
 import json, csv, os
 from tempfile import NamedTemporaryFile
@@ -7,7 +7,11 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    return redirect(url_for('login_page'))
+
+@app.route('/dashboard/<user_id>', methods=['GET'])
+def dashboard_page(user_id):
+    return render_template('dashboard.html')
 
 @app.route('/signup', methods=['GET'])
 def signup_page():
@@ -93,45 +97,75 @@ def edit():
 
 @app.route('/api/signup', methods=['POST'])
 def signup():
+    form = request.json
+
+    email = form['email']
+
+    name = form['name']
+
+    password = form['password']
+
+    num_lines = 0    
+    # Abrindo arquivo no modo leitura
+    with open('users.csv', newline='') as users:
+        reader = csv.reader(users, delimiter=',')
+
+        for line in reader:
+            num_lines += 1
+
+            if email == line[2]: # Checando se existe uma ocorrência do e-mail em alguma linha do arquivo
+                # Existe uma ocorrência, retornando 403
+                response = {
+                    'message': 'Já existe um usuário com esse e-mail registrado'
+                }
+                return make_response(response, 403) # (body, status, headers)
+
+    # Se o código chegou até aqui é porque não existe um e-mail igual no arquivo, podemos prosseguir
+
+    new_id = num_lines + 1 # Criando a nova id
     
-    with open('users.csv') as users:
-        count = sum(1 for line in users)
-
-    new_id = count +1
-    
-    mail = request.form['email']
-
-    name = request.form['username']
-
-    password = request.form['password']
-
+    # Abrindo o arquivo pra escrita
     with open('users.csv', 'a', newline='') as users :
         userwriter = csv.writer(users, delimiter=',')
-        userwriter.writerow([new_id, name, mail, password])
+        userwriter.writerow([new_id, name, email, password]) # Escrevendo a nova linha
 
     response = {
         'message': 'Signed up successfully',
         'user_id': new_id
     }
 
-    return make_response(response, 200) # (body, status, headers)
+    return make_response(json.dumps(response), 200) # (body, status, headers)
 
 
 
 
 @app.route('/api/login', methods=['POST'])
 def login():
+    form = request.json
  
-    lmail = request.form['email']
-    lpswrd = request.form['password']
+    email = form['email']
+    password = form['password']
 
     with open('users.csv', newline='') as users:
         reader = csv.reader(users, delimiter=',', quotechar='|')
         for row in reader:
-            if lmail in row:
-                if lpswrd in row:
-                    return Response(status=200)
+            if email in row:
+                if password in row:
+                    response = {
+                        'message': 'Logged successfully',
+                        'user_id': row[0]
+                    }
+                    return make_response(response, 200) # (body, status, headers)
+
                 else:
-                    return Response('senha incorreta')
-        return Response(status=403)
+                    response = {
+                        'message': 'Senha incorreta'
+                    }
+                    return make_response(response, 403) # (body, status, headers)
+
+    response = {
+        'message': 'Não existe uma conta com esse e-mail registrado'
+    }
+
+    return make_response(json.dumps(response), 403) # (body, status, headers)
         

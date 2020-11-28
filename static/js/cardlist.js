@@ -11,6 +11,10 @@ class CardList {
     var new_list = '';
     var final_table = ''
 
+    if (!list_container) {
+      return;
+    }
+
     list_container.innerHTML = '';
     
     this_class.list.forEach(function (data) {
