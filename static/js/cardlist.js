@@ -41,12 +41,37 @@ class CardList {
     return list_container;
   }
 
+  bestCardToBuy () {
+    let today_date = new Date();
+    let day = parseInt(String(today_date.getDate()).padStart(2, '0'), 10);
+
+
+    var best_to_buy = this.list[0];
+
+    this.list.forEach(function (card) {
+      
+      var best_day = card[4] - 7 + day;
+
+      if (best_day >= day) {
+          best_to_buy = card
+      }
+    })
+
+    return best_to_buy
+  }
+
   newElement (data) {
+    var card_id = data[0];
+    var card_name = data[1];
+    var card_flag = data[2];
+    var card_bank = data[3];
+    var card_bill = data[4];
+
     return (
       `
       <tr class='card-item'>
         <th scope="row">
-            <button type='button' value='${data[0]}' class='edit-card-btn'><i class="fas fa-edit"></i></button>
+            <button type='button' value='${card_id}' data-name='${card_name}' data-brand='${card_flag}' data-bank='${card_bank}' data-bill='${card_bill}' class='edit-card-btn'><i class="fas fa-edit"></i></button>
             <button type='button' value='${data[0]}' class='delete-card-btn'><i class="fas fa-trash"></i></button>
         </th>
         <td><p>${data[1]}</p></td>

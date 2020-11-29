@@ -25,7 +25,8 @@
 
         <title>Compre Certo</title>
     </head>
-    <body>   
+    <body> 
+        <!-- Modal de adição -->  
         <div id='new-card' class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -39,22 +40,22 @@
                     <div class="modal-body">
                         <!-- Nome -->
                         <div class="form-group">
-                            <label for="card-name-input">Nome do cartão</label>
-                            <input class="form-control" id="card-name-input">
+                            <label for="card-name-input-add">Nome do cartão</label>
+                            <input class="form-control" id="card-name-input-add">
                         </div>
                         <!-- Bandeira -->
                         <div class="form-group">
-                            <label for="card-brand-input">Bandeira</label>
-                            <input class="form-control" id="card-brand-input">
+                            <label for="card-brand-input-add">Bandeira</label>
+                            <input class="form-control" id="card-brand-input-add">
                         </div>
                         <!-- Banco -->
                         <div class="form-group">
-                            <label for="card-bank-input">Banco</label>
-                            <input class="form-control" id="card-bank-input">
+                            <label for="card-bank-input-add">Banco</label>
+                            <input class="form-control" id="card-bank-input-add">
                         </div>
                         <!-- Vencimento da fatura -->
-                        <label for="card-bill-day">Vencimento da fatura</label>
-                        <select class="form-control" id="card-bill-input">
+                        <label for="card-bill-input-add">Vencimento da fatura</label>
+                        <select class="form-control" id="card-bill-input-add">
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -96,9 +97,81 @@
               </div>
             </div>
           </div>
+          <!-- Modal de edição -->
+          <div id='edit-card' class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Adicionar cartão</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <!-- Nome -->
+                        <div class="form-group">
+                            <label for="card-name-input-edit">Nome do cartão</label>
+                            <input class="form-control" id="card-name-input-edit">
+                        </div>
+                        <!-- Bandeira -->
+                        <div class="form-group">
+                            <label for="card-brand-input-edit">Bandeira</label>
+                            <input class="form-control" id="card-brand-input-edit">
+                        </div>
+                        <!-- Banco -->
+                        <div class="form-group">
+                            <label for="card-bank-input-edit">Banco</label>
+                            <input class="form-control" id="card-bank-input-edit">
+                        </div>
+                        <!-- Vencimento da fatura -->
+                        <label for="card-bill-input-edit">Vencimento da fatura</label>
+                        <select class="form-control" id="card-bill-input-edit">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                          <option>6</option>
+                          <option>7</option>
+                          <option>8</option>
+                          <option>9</option>
+                          <option>10</option>
+                          <option>11</option>
+                          <option>12</option>
+                          <option>13</option>
+                          <option>14</option>
+                          <option>15</option>
+                          <option>16</option>
+                          <option>17</option>
+                          <option>18</option>
+                          <option>19</option>
+                          <option>20</option>
+                          <option>21</option>
+                          <option>22</option>
+                          <option>23</option>
+                          <option>24</option>
+                          <option>25</option>
+                          <option>26</option>
+                          <option>27</option>
+                          <option>28</option>
+                          <option>29</option>
+                          <option>30</option>
+                          <option>31</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" id='submit-edit-card-btn' class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        
         <div class="header">
             <span id="welcome">Olá, Joctan</span>
-            <button>Sair</button>
+            <button id='logout-btn'>Sair</button>
         </div>
         <div class="content">
             <div class='row'>
@@ -131,9 +204,9 @@
                     </div>
 
                     <div class="row session_content">
-                        <p>Seu melhor cartão para compra é hoje:</p>
+                        <p>Seu melhor cartão para compra hoje:</p>
                         <span id="best_card">
-                            VISA 2
+                            
                         </span>
                     </div>
                 </div>

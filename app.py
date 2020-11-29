@@ -110,17 +110,20 @@ def delete():
 
 @app.route('/api/editCard', methods=['POST'])
 def edit():
-    form = request.form
+    form = request.json
     
-    primary_key = form['user_id']
+    primary_key = form['card_id']
+    foreign_key = form['user_id']
     name = form['card_name']
     flag = form['card_flag']
     bank = form['card_bank']
     bill = form['card_bill']
 
 
-    filename = 'tmpEmployeeDatabase.csv'
+    filename = 'cards.csv'
     tempfile = NamedTemporaryFile('w+t', newline='', delete=False)
+
+    edited = False
 
     with open('cards.csv', 'r', newline='') as cards, tempfile:
         reader = csv.reader(cards, delimiter=',', quotechar='"')
@@ -132,11 +135,23 @@ def edit():
                 row [2]=flag 
                 row [3]=bank
                 row [4]=bill
+                edited = True
             writer.writerow(row)
 
-    os.rename(tempfile.name, filename)
-    
-    return Response(status=200)
+    shutil.move(tempfile.name, filename)
+
+    if edited:
+        response = {
+            'message': 'Successfully edited',
+            'user_id': foreign_key
+        }
+        return make_response(json.dumps(response), 200)
+    else:
+        response = {
+            'message': 'Não foi possível editar o cartão',
+            'user_id': foreign_key
+        }
+        return make_response(json.dumps(response), 200)
 
 
 @app.route('/api/signup', methods=['POST'])

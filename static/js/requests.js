@@ -6,7 +6,8 @@ class Requests {
       login: '/api/login',
       addCard: '/api/addCard',
       getCards: '/api/getCards',
-      deleteCard: '/api/deleteCard'
+      deleteCard: '/api/deleteCard',
+      editCard: '/api/editCard'
     }
   }
 
@@ -25,11 +26,11 @@ class Requests {
 
       let user_id = response.user_id;
 
-      window.location.href = `/dashboard/${user_id}`;
+      //window.location.href = `/dashboard/${user_id}`;
     }
 
     let onError = function (response){
-      let data = response.responseJSON
+      let data = response
       alert(data.message)
     }
 
@@ -99,6 +100,40 @@ class Requests {
     });
   }
 
+  editCard (user_id, card_id, name, flag, bank, bill) {
+    let body = {
+      'user_id': user_id,
+      'card_id': card_id,
+      'card_name': name,
+      'card_flag': flag,
+      'card_bank': bank,
+      'card_bill': bill
+    }
+
+    let endpoint = window.location.origin+this.endpoints.editCard;
+
+    let onSuccess = function (response) {
+      let user_id = response.user_id;
+
+      window.location.href = `/dashboard/${user_id}`;
+    }
+
+    let onError = function (response){
+      let data = response
+      alert(data.message)
+    }
+
+    $.ajax({
+      url: endpoint,
+      contentType: "application/json",
+      dataType: 'json',
+      data: JSON.stringify(body),
+      type: 'POST',
+      success: onSuccess,
+      error: onError
+    });
+  }
+
   signup (email, name, password) {
     let body = {
       'email': email,
@@ -145,7 +180,7 @@ class Requests {
     }
 
     let onError = function (response){
-      let data = response.responseJSON
+      let data = response
       alert(data.message)
     }
 

@@ -6,7 +6,7 @@ class DOMControl {
     const listeners = {
       'add_card': {
           'event': 'click',
-          'method': this.register
+          'method': this.addCardModal
       },
       'login-btn': {
         'event': 'click',
@@ -32,6 +32,19 @@ class DOMControl {
         'isClass': true,
         'event': 'click',
         'method': this.deleteCard
+      },
+      'edit-card-btn': {
+        'isClass': true,
+        'event': 'click',
+        'method': this.editCardModal
+      },
+      'submit-edit-card-btn': {
+        'event': 'click',
+        'method': this.editCard
+      },
+      'logout-btn': {
+        'event': 'click',
+        'method': function () {return this_class.redirectTo('/login')}
       }
     };
   
@@ -148,8 +161,33 @@ class DOMControl {
     new_request.signup(email, name, password1);
   }
 
-  register () {
+  addCardModal () {
     $('#new-card').modal();
+  }
+
+  editCardModal () {
+    var button = this;
+    $('#edit-card').on('show.bs.modal', function (event) {
+      //var button = $(event.relatedTarget)
+
+      let card_id = button.getAttribute('value');
+      let card_name = button.getAttribute('data-name');
+      let card_brand = button.getAttribute('data-brand');
+      let card_bank = button.getAttribute('data-bank');
+      let card_bill = button.getAttribute('data-bill');
+
+      console.log(card_id)
+      console.log(card_name)
+
+      let modal = $(this)
+      $('#card-name-input-edit').val(card_name);
+      modal.find('#card-brand-input-edit').val(card_brand);
+      modal.find('#card-bank-input-edit').val(card_bank);
+      modal.find('#card-bill-input-edit').val(card_bill);
+      modal.find('#submit-edit-card-btn').val(card_id)
+    })
+
+    $('#edit-card').modal();
   }
 
   addCard () {
@@ -157,13 +195,13 @@ class DOMControl {
 
     user_id = GLOBAL_user_id;
 
-    name = document.getElementById('card-name-input').value;
+    name = document.getElementById('card-name-input-add').value;
 
-    flag = document.getElementById('card-brand-input').value;
+    flag = document.getElementById('card-brand-input-add').value;
 
-    bank = document.getElementById('card-bank-input').value;
+    bank = document.getElementById('card-bank-input-add').value;
 
-    bill = document.getElementById('card-bill-input').value;
+    bill = document.getElementById('card-bill-input-add').value;
 
 
     if (name.length == 0 || flag.length == 0 || bank.length == 0 || bill.length == 0) {
@@ -186,6 +224,10 @@ class DOMControl {
 
     cardList.updateList();
 
+    let best_to_buy = cardList.bestCardToBuy()[1];
+
+    document.getElementById('best_card').innerHTML = best_to_buy;
+
     this.updateListeners();
   }
 
@@ -200,15 +242,27 @@ class DOMControl {
     new_request.deleteCard(user_id, card_id);
   }
 
-  edit () {
-    $('#new-card').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var recipient = button.data('whatever') // Extract info from data-* attributes
-      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-      var modal = $(this)
+  editCard () {
+    var user_id, card_id, name, flag, bank, bill
 
-      modal.find('.modal-body input').val(recipient)
-    })
+    user_id = GLOBAL_user_id;
+
+    name = document.getElementById('card-name-input-edit').value;
+
+    card_id = this.getAttribute('value');
+
+    flag = document.getElementById('card-brand-input-edit').value;
+
+    bank = document.getElementById('card-bank-input-edit').value;
+
+    bill = document.getElementById('card-bill-input-edit').value;
+
+
+    if (name.length == 0 || flag.length == 0 || bank.length == 0 || bill.length == 0) {
+      return alert('Preencha todos os dados');
+    }
+
+    let new_request = new Requests();
+    new_request.editCard(user_id, card_id, name, flag, bank, bill);
   }
 }
